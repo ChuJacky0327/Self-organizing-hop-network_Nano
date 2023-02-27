@@ -158,15 +158,15 @@ $ make
 ```
 
 &emsp;
-#### 檢查攝影機有沒有接到 :
+### 檢查攝影機有沒有接到 :
 ```shell
 $ ls /dev/video*
 ```  
-#### 測試 yolov4-tiny 辨識照片 :
+### 測試 yolov4-tiny 辨識照片 :
 ```shell
 $ ./darknet detector test cfg/coco.data cfg/yolov4-tiny.cfg yolov4-tiny.weights data/person.jpg
 ```
-#### 將辨識結果存成 mp4 檔 :
+### 將辨識結果存成 mp4 檔 :
 ```shell
 ./darknet detector demo cfg/coco.data cfg/yolov4-tiny.cfg yolov4-tiny.weights test.mp4 -out_filename test_yolo.mp4
 ```
