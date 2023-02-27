@@ -28,5 +28,5 @@ $ sudo make dkms_install
 $ reboot
 $ ifconfig
 ```
-* ifconfig 後若有兩個 interface (wlan0)(wlan1)，即完成。  如下圖所示
+* ifconfig 後若有兩個 interface (wlan0)(wlan1)，即完成。  如下圖所示  
 ![image](https://github.com/ChuJacky0327/Self-organizing-hop-network_Nano/blob/main/images/wlan1_enable.png) 
