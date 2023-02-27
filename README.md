@@ -28,7 +28,7 @@ $ sudo make dkms_install
 $ reboot
 $ ifconfig
 ```
-* ifconfig 後若有兩個 interface (wlan0)(wlan1)，即完成。  如下圖所示  
+* ifconfig 後若有兩個 interface (wlan0)(wlan1)，即完成。如下圖所示:  
 ![image](https://github.com/ChuJacky0327/Self-organizing-hop-network_Nano/blob/main/images/wlan1_enable.png) 
 ***
 ## Step3. Jetson Nano AP model
@@ -64,16 +64,41 @@ $ nmcli con modify WIFI_AP 802-11-wireless-security.psk nano10327
 $ nmcli con modify WIFI_AP ipv4.method shared
 $ nmcli con up WIFI_AP
 ```
-> 修改的 interface 為 wlan1  
-> con-name 為檔案的名稱  
-> ssid 為無線網路名稱(可自行設定)  
-> 802-11-wireless-security.psk 為無線網路的密碼(可自行設定)  
+> * 修改的 interface 為 wlan1  
+> * con-name 為檔案的名稱  
+> * ssid 為無線網路名稱(可自行設定)  
+> * 802-11-wireless-security.psk 為無線網路的密碼(可自行設定)  
 ### 備註 :
 > 如果要換成 5G 的頻段，修改成下面這段
 ```shell
 $ nmcli con modify WIFI_AP 802-11-wireless.band a
 $ nmcli con modify WIFI_AP 802-11-wireless.channel 36
 ```
+* 變成這樣即成功，wlan1 預設為10.X.X.X。如下圖所示:  
+![image](https://github.com/ChuJacky0327/Self-organizing-hop-network_Nano/blob/main/images/wifi_ap.jpg) 
 
 
+&emsp;
+```shell
+$ nmcli con modify WIFI_AP ipv4.addr 192.168.61.1/24
+```
+> * ip address 可自行設定為 192.168.xx.1  '
 
+```shell
+$ sudo gedit /etc/NetworkManager/system-connections/WIFI_AP
+```
+> * 可進入 WIFI_AP 看之前設定的對不對   
+
+```shell
+$ sudo systemctl restart NetworkManager 
+$ ifconfig
+```
+> * restart NetworkManager 讓更改生效 
+> * ifconfig 後若有更改成你設定的參數，即成功。如下圖所示:  
+![image](https://github.com/ChuJacky0327/Self-organizing-hop-network_Nano/blob/main/images/wlan1_AP.png)
+***
+## Step4. Ping test
+手機連上 Jetson Nano 的 AP 網路，去看配到的 ipaddress，用 Jetson Nano 去 ping，若能 ping 到就代表成功。  
+```shell
+$ ping 192.168.61.208
+```
