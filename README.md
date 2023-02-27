@@ -64,7 +64,16 @@ $ nmcli con modify WIFI_AP 802-11-wireless-security.psk nano10327
 $ nmcli con modify WIFI_AP ipv4.method shared
 $ nmcli con up WIFI_AP
 ```
-
+> 修改的 interface 為 wlan1
+> con-name 為檔案的名稱
+> ssid 為無線網路名稱(可自行設定)
+> 802-11-wireless-security.psk 為無線網路的密碼(可自行設定)  
+### 備註 :
+> 如果要換成 5G 的頻段，修改成下面這段
+```shell
+$ nmcli con modify WIFI_AP 802-11-wireless.band a
+$ nmcli con modify WIFI_AP 802-11-wireless.channel 36
+```
 
 
 
