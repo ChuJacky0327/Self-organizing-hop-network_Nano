@@ -30,3 +30,18 @@ $ ifconfig
 ```
 * ifconfig 後若有兩個 interface (wlan0)(wlan1)，即完成。  如下圖所示  
 ![image](https://github.com/ChuJacky0327/Self-organizing-hop-network_Nano/blob/main/images/wlan1_enable.png) 
+***
+## Step3. Jetson Nano AP model
+將 wlan1 改成 AP model。
+```shell
+$ nmcli dev show wlan1
+```
+> 確保 wlan1 有開啟 
+
+```shell
+$ sudo apt install hostapd dnsmasq -y
+$ sudo systemctl disable dnsmasq
+$ sudo systemctl stop dnsmasq
+$ sudo apt install gedit
+$ sudo gedit /etc/NetworkManager/NetworkManager.conf
+```
