@@ -157,6 +157,7 @@ $ make clean
 $ make
 ```
 
+&emsp;
 #### 檢查攝影機有沒有接到 :
 ```shell
 $ ls /dev/video*
