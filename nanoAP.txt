@@ -1,0 +1,42 @@
+$ ifconfig
+$ cd AC600/
+$ sudo rm /var/lib/dpkg/lock-frontend
+$ sudo rm /var/lib/dpkg/lock
+$ sudo dpkg -i *.deb
+$ cd rtl8812au/
+$ sudo make dkms_install
+$ sudo reboot
+$ ifconfig
+
+$ nmcli dev show wlan1
+$ sudo apt install hostapd dnsmasq -y
+$ sudo systemctl disable dnsmasq
+$ sudo systemctl stop dnsmasq
+$ sudo apt install gedit
+$ sudo gedit /etc/NetworkManager/NetworkManager.conf
+
+[main]
+dns=dnsmasq
+
+$ nmcli con add type wifi ifname wlan1 mode ap con-name WIFI_AP ssid pig-nano1
+$ nmcli con modify WIFI_AP 802-11-wireless.band bg
+$ nmcli con modify WIFI_AP 802-11-wireless.channel 1
+$ nmcli con modify WIFI_AP 802-11-wireless-security.key-mgmt wpa-psk
+$ nmcli con modify WIFI_AP 802-11-wireless-security.proto rsn
+$ nmcli con modify WIFI_AP 802-11-wireless-security.group ccmp
+$ nmcli con modify WIFI_AP 802-11-wireless-security.pairwise ccmp
+$ nmcli con modify WIFI_AP 802-11-wireless-security.psk nano10327
+$ nmcli con modify WIFI_AP ipv4.method shared
+$ nmcli con up WIFI_AP
+
+if 5G:
+$ nmcli con modify WIFI_AP 802-11-wireless.band a
+$ nmcli con modify WIFI_AP 802-11-wireless.channel 36
+
+$ nmcli con modify WIFI_AP ipv4.addr 192.168.61.1/24
+$ sudo gedit /etc/NetworkManager/system-connections/WIFI_AP
+$ sudo systemctl restart NetworkManager 
+$ ifconfig
+$ ping 192.168.61.208
+
+
