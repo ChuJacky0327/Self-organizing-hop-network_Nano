@@ -102,3 +102,14 @@ $ ifconfig
 ```shell
 $ ping 192.168.61.208
 ```
+***
+## Step5. OpenCV and yolov4-tiny install
+* 因為本專案是進行影像畫面的共享傳輸，因此需要安裝 OpenCV和darknet。
+* 使用 yolov4-tiny 辨識與儲存影片
+```shell
+$ git clone https://github.com/AlexeyAB/darknet
+$ sudo apt-get install build-essential libpcre3-dev libssl-dev libopencv-dev
+```
+* 先檢查
+
+
