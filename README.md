@@ -110,6 +110,62 @@ $ ping 192.168.61.208
 $ git clone https://github.com/AlexeyAB/darknet
 $ sudo apt-get install build-essential libpcre3-dev libssl-dev libopencv-dev
 ```
-* 先檢查
+* 先檢查 Jetson Nano 的 cuda 有沒有開啟
+```shell
+$ nvcc -V
+```
+> 若有顯示即有，若沒顯示要做以下步驟，把環境變數加進去
+```shell
+$ sudo gedit ~/.bashrc
+```
+**在 bashrc 內容新增 :**
+```
+export PATH=/usr/local/cuda/bin${PATH:+:${PATH}}
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64\
+                         ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+```
+```shell
+$ sudo reboot
+```
+> 在測一次```  $ nvcc -V ``` 看有沒有成功
 
+&emsp;
+```shell
+$ cd darknet/
+$ sudo gedit Makefile 
+```
+**在 Makefile 內容修改 :**
+```
+GPU=1
+CUDNN=1
+CUDNN_HALF=1
+OPENCV=1
+```
+```shell
+$ make
+```
+> 如果 ``` make ``` 出現錯誤，Makefile:185: recipe for target 'obj/network_kernels.o' failed，則做以下步驟，之後從新make:
+```shell
+$ sudo gedit src/network_kernels.cu
+```
+**在 network_kernels 內容修改 :**
+```
+ctrl+F查找關鍵詞cudaStreamCaptureModeGlobal，把這個參數刪掉(含前面的逗號) 
+```
+```shell
+$ make clean
+$ make
+```
 
+#### 檢查攝影機有沒有接到 :
+```shell
+$ ls /dev/video*
+```  
+#### 測試 yolov4-tiny 辨識照片 :
+```shell
+$ ./darknet detector test cfg/coco.data cfg/yolov4-tiny.cfg yolov4-tiny.weights data/person.jpg
+```
+#### 將辨識結果存成 mp4 檔 :
+```shell
+./darknet detector demo cfg/coco.data cfg/yolov4-tiny.cfg yolov4-tiny.weights test.mp4 -out_filename test_yolo.mp4
+```
