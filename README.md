@@ -45,3 +45,26 @@ $ sudo systemctl stop dnsmasq
 $ sudo apt install gedit
 $ sudo gedit /etc/NetworkManager/NetworkManager.conf
 ```
+**將 NetworkManager.conf 裡的內容新增 :**
+```
+[main]
+dns=dnsmasq
+```
+
+&emsp;
+```shell
+$ nmcli con add type wifi ifname wlan1 mode ap con-name WIFI_AP ssid pig-nano1
+$ nmcli con modify WIFI_AP 802-11-wireless.band bg
+$ nmcli con modify WIFI_AP 802-11-wireless.channel 1
+$ nmcli con modify WIFI_AP 802-11-wireless-security.key-mgmt wpa-psk
+$ nmcli con modify WIFI_AP 802-11-wireless-security.proto rsn
+$ nmcli con modify WIFI_AP 802-11-wireless-security.group ccmp
+$ nmcli con modify WIFI_AP 802-11-wireless-security.pairwise ccmp
+$ nmcli con modify WIFI_AP 802-11-wireless-security.psk nano10327
+$ nmcli con modify WIFI_AP ipv4.method shared
+$ nmcli con up WIFI_AP
+```
+
+
+
+
