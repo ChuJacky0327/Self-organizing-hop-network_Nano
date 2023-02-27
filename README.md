@@ -97,7 +97,7 @@ $ ifconfig
 > * ifconfig 後若有更改成你設定的參數，即成功。如下圖所示:  
 ![image](https://github.com/ChuJacky0327/Self-organizing-hop-network_Nano/blob/main/images/wlan1_AP.png)
 ***
-## Step4. Ping test
+## Step4. Ping Test
 手機連上 Jetson Nano 的 AP 網路，去看配到的 ipaddress，用 Jetson Nano 去 ping，若能 ping 到就代表成功。  
 ```shell
 $ ping 192.168.61.208
