@@ -168,7 +168,7 @@ $ ./darknet detector test cfg/coco.data cfg/yolov4-tiny.cfg yolov4-tiny.weights 
 ```
 ### 將辨識結果存成 mp4 檔 :
 ```shell
-./darknet detector demo cfg/coco.data cfg/yolov4-tiny.cfg yolov4-tiny.weights test.mp4 -out_filename test_yolo.mp4
+$ ./darknet detector demo cfg/coco.data cfg/yolov4-tiny.cfg yolov4-tiny.weights test.mp4 -out_filename test_yolo.mp4
 ```
 ***
 ## Step6. RTMP install
@@ -208,4 +208,5 @@ $ pip3 install -U opencv-python
 ### 備註 :  
 > 1. Jetson Nano 開機時，要下```sudo /usr/local/nginx/sbin/nginx```，啟動 nginx 服務。
 > 2. 在網頁輸入```localhost```，即可得知 nginx 有無啟動。
+> 3. 因為我的 Nano 的映像檔很舊，所以有保留 python2.7 的版本，且```  pip3 install -U opencv-python ```安裝完會 core dump，因此我選擇使用 python2.7 做後續的開發
 ***
