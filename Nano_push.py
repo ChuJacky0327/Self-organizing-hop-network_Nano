@@ -3,7 +3,7 @@ import cv2 as cv
 #rtmpUrl = "rtmp://10.0.2.15:1935/rtmp/live"
 #rtmpUrl = "rtmp://192.168.43.112:1935/rtmp/live"
 #rtmpUrl = "rtmp://192.168.0.166:1935/rtmp/live"
-rtmpUrl = "rtmp://192.168.51.6:1935/rtmp/live"
+rtmpUrl = "rtmp://192.168.53.6:1935/rtmp/live"
 camera_path = "darknet/test_yolo.mp4"
 cap = cv.VideoCapture(camera_path)
 
