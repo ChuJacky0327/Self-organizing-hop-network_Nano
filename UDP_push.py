@@ -14,7 +14,7 @@ while True:
     ret,photo = cap.read()      # Start Capturing a images/video
     cv2.imshow('my pic', photo) # Show Video/Stream
     ret, buffer = cv2.imencode(".jpg", photo, [int(cv2.IMWRITE_JPEG_QUALITY),30])  # ret will returns whether connected or not, Encode image from image to Buffer code(like [123,123,432....])
-    x_as_bytes = pickle.dumps(buffer)       # Convert normal buffer Code(like [123,123,432....]) to Byte code(like b"\x00lOCI\xf6\xd4...")
+    x_as_bytes = pickle.dumps(buffer,potocol = 2)       # Convert normal buffer Code(like [123,123,432....]) to Byte code(like b"\x00lOCI\xf6\xd4...")
     s.sendto(x_as_bytes,(serverip , serverport)) # Converted byte code is sending to server(serverip:serverport)
     if cv2.waitKey(10) == 13:    # Press Enter then window will close
         break                    
