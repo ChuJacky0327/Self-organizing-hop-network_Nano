@@ -171,7 +171,7 @@ $ ./darknet detector test cfg/coco.data cfg/yolov4-tiny.cfg yolov4-tiny.weights 
 ./darknet detector demo cfg/coco.data cfg/yolov4-tiny.cfg yolov4-tiny.weights test.mp4 -out_filename test_yolo.mp4
 ```
 ***
-## Step5. RTMP install
+## Step6. RTMP install
 * 因為本專案是進行影像畫面的共享傳輸，因此需要安裝 RTMP 串流協定。
 * 需安裝 nginx-1.16.0 和 ffmpeg。
 ```shell
@@ -206,6 +206,6 @@ $ sudo pip3 install --upgrade pip
 $ pip3 install -U opencv-python
 ```
 ### 備註 :  
-> 1. Raspberry Pi 開機時，要下```sudo /usr/local/nginx/sbin/nginx```，啟動 nginx 服務。
+> 1. Jetson Nano 開機時，要下```sudo /usr/local/nginx/sbin/nginx```，啟動 nginx 服務。
 > 2. 在網頁輸入```localhost```，即可得知 nginx 有無啟動。
 ***
