@@ -217,6 +217,7 @@ $ pip3 install -U opencv-python
 ##### 備註 :
 >  我的 Jetson Nano python 版本為 2.7，Raspberry Pi python 版本為 3.6。
 
+&emsp;
 ### 7.1 Jetson Nano 利用自組織跳點網路傳送影像給 Raspberry Pi :  
 * 影像在 Jetson Nano 身上，所以 Jetson Nano 為 client 端，Raspberry Pi 為 server 端。
 * Raspberry Pi 開啟 AP，Jetson Nano 的 STA 連上 Raspberry Pi 的 AP，形成自組織的跳點網路。  
@@ -229,15 +230,73 @@ $ python Nano_push.py
 $ python3 Nano_pull.py
 ```
 ##### 備註 :
-> 1.透過 RTMP 進行傳輸。  
+> 1.即完成透過 RTMP 進行影像傳輸。  
 > 2.傳輸的影像為 Step5 的 yolov4-tiny 辨識結果，可自行更改。  
 > 3.要自行更改連到的 ip address，每個人設定的會不一樣，(我的為192.168.53.6)。  
 
 &emsp;
 ### 7.2  Raspberry Pi 利用自組織跳點網路傳送影像給 Jetson Nano :
+* 影像在 Raspberry Pi 身上，所以 Raspberry Pi 為 client 端，Jetson Nano 為 server 端。
+* Jetson Nano 開啟 AP，Raspberry Pi 的 STA 連上 Jetson Nano 的 AP，形成自組織的跳點網路。  
+##### 備註 :
+> * Jetson Nano AP(192.168.61.1)，Raspberry Pi STA(192.168.61.93)。  
+> * 這邊發現有 Bug，透過 RTMP 無法連上 Jetson Nano 所分享出去的 AP(192.168.61.93)，連線會被拒絕，因此無法使用 RTMP 傳送影像。  
 
+***
+#### Ping test for Raspberry Pi STA:
+```shell
+$ ping 192.168.61.93
+```
+> 可看出其實是 ping 的到的，代表 AP 所分享出去的網路是可以連接的。
 
+***
+#### 改用 iperf3 測試 :
+```shell
+$ sudo apt-get install iperf3
+```
+#### iperf3 for TCP packet: 
+* 要打封包測試 192.168.61.93 是否可以連通。所以 Raspberry Pi 為 server 端，Jetson Nano 為 client 端。
+#### server 端(Raspberry Pi) :
+```shell
+$ iperf3 -s
+```
+#### client 端(Jetson Nano) :
+```shell
+$ iperf3 -c 192.168.61.93 -t 30 
+```
+*  iperf3 結果:  
+![image](https://github.com/ChuJacky0327/Self-organizing-hop-network_Nano/blob/main/images/Nano_AP_iperf3_tcp.png)
+> 經過測試發現 TCP 的連接被阻擋掉了，無法接收到封包，因此換 UDP 試試。 
+ 
+***
+#### iperf3 for UDP packet: 
+* 要打封包測試 192.168.61.93 是否可以連通。所以 Raspberry Pi 為 server 端，Jetson Nano 為 client 端。
+#### server 端(Raspberry Pi) :
+```shell
+$ iperf3 -s
+```
+#### client 端(Jetson Nano) :
+```shell
+$ iperf3 -c 192.168.61.93 -t 30 -u -b 0
+```
+*  iperf3 結果:  
+![image](https://github.com/ChuJacky0327/Self-organizing-hop-network_Nano/blob/main/images/Nano_AP_iperf3_udp.png)
+> 經過測試發現 UDP 的封包是可以傳送到的，因此改用 UDP 的影像串流方法 (socket)。  
+
+***
+* 使用 socket 進行自組織跳點網路影像傳送:
+#### client 端(Raspberry Pi) :
+```shell
+$ python3 UDP_push.py
+```
+#### server 端(Jetson Nano) :
+```shell
+$ python UDP_pull.py
+```
+
+&emsp;
 ### 7.3 Jetson Nano 利用自組織跳點網路傳送影像給 Jetson Nano :
+* 同 7.2 一樣的問題，解法與 7.2 一樣，可自行往 7.2 小節去看。
 
 
 
