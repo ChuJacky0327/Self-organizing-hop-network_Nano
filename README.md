@@ -210,3 +210,39 @@ $ pip3 install -U opencv-python
 > 2. 在網頁輸入```localhost```，即可得知 nginx 有無啟動。
 > 3. 因為我的 Nano 的映像檔很舊，所以有保留 python2.7 的版本，且```  pip3 install -U opencv-python ```安裝完會 core dump，因此我選擇使用 python2.7 做後續的開發
 ***
+## Step7. Test and Demo
+* 本章節是進行最後的測試與 Demo。  
+* 由於本專案會配合 Raspberry Pi 進行開發，因此會分成三個小節執行說明。  
+* 我在做 Jetson Nano 的跳點專案開發時，遇到了一些問題，詳細會在各小節內說明，並附上目前的解決方法。  
+##### 備註 :
+>  我的 Jetson Nano python 版本為 2.7，Raspberry Pi python 版本為 3.6。
+
+### 7.1 Jetson Nano 利用自組織跳點網路傳送影像給 Raspberry Pi :  
+* 影像在 Jetson Nano 身上，所以 Jetson Nano 為 client 端，Raspberry Pi 為 server 端。
+* Raspberry Pi 開啟 AP，Jetson Nano 的 STA 連上 Raspberry Pi 的 AP，形成自組織的跳點網路。  
+#### client 端(Jetson Nano) :
+```shell
+$ python Nano_push.py
+```
+#### server 端(Raspberry Pi) :
+```shell
+$ python3 Nano_pull.py
+```
+##### 備註 :
+> 1.透過 RTMP 進行傳輸。  
+> 2.傳輸的影像為 Step5 的 yolov4-tiny 辨識結果，可自行更改。  
+> 3.要自行更改連到的 ip address，每個人設定的會不一樣，(我的為192.168.53.6)。  
+
+&emsp;
+### 7.2  Raspberry Pi 利用自組織跳點網路傳送影像給 Jetson Nano :
+
+
+### 7.3 Jetson Nano 利用自組織跳點網路傳送影像給 Jetson Nano :
+
+
+
+
+
+
+
+
