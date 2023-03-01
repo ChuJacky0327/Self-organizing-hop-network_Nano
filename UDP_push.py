@@ -11,13 +11,19 @@ cap = cv2.VideoCapture('result.mp4')       # Start Streaming video, will return 
 
 # In order to iterate over block of code as long as test expression is true
 while True:
-    ret,photo = cap.read()      # Start Capturing a images/video
-    cv2.imshow('my pic', photo) # Show Video/Stream
-    ret, buffer = cv2.imencode(".jpg", photo, [int(cv2.IMWRITE_JPEG_QUALITY),30])  # ret will returns whether connected or not, Encode image from image to Buffer code(like [123,123,432....])
-    x_as_bytes = pickle.dumps(buffer, protocol = 2)       # Convert normal buffer Code(like [123,123,432....]) to Byte code(like b"\x00lOCI\xf6\xd4...")
-    s.sendto(x_as_bytes,(serverip , serverport)) # Converted byte code is sending to server(serverip:serverport)
-    if cv2.waitKey(10) == 13:    # Press Enter then window will close
-        break                    
+    try:
+        ret,photo = cap.read()      # Start Capturing a images/video
+        cv2.imshow('my pic', photo) # Show Video/Stream
+        ret, buffer = cv2.imencode(".jpg", photo, [int(cv2.IMWRITE_JPEG_QUALITY),30])  # ret will returns whether connected or not, Encode image from image to Buffer code(like [123,123,432....])
+        x_as_bytes = pickle.dumps(buffer,protocol = 2)       # Convert normal buffer Code(like [123,123,432....]) to Byte code(like b"\x00lOCI\xf6\xd4...")
+        s.sendto(x_as_bytes,(serverip , serverport)) # Converted byte code is sending to server(serverip:serverport)
+        if cv2.waitKey(10) == 13:    # Press Enter then window will close
+            break
+    except:
+        print('break')
+        break
+#s.sendto(b'send',(serverip , serverport))                 
+print('OK')   
 # Destroy all Windows/close
 cv2.destroyAllWindows() 
 cap.release()
