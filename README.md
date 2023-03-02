@@ -293,11 +293,24 @@ $ python3 UDP_push.py
 ```shell
 $ python UDP_pull.py
 ```
+##### 備註 :
+> 1.要自行更改連到的 ip address，每個人設定的會不一樣。  
+> 2.UDP socket 推送，經實驗後得知，推流的話都可以推到任何的ip address，拉流只能拉自己 ifconfig 看的到的 ip address，因此 UDP socket 改送(192.168.61.1)。  
+> 3.由於我的 Jetson Nano python 版本為 2.7，Raspberry Pi python 版本為 3.6，因此在用到 pickle 時要補上 protocol = 2，不然 python 3.X 的資料無法傳給 python2.X。   
 
 &emsp;
 ### 7.3 Jetson Nano 利用自組織跳點網路傳送影像給 Jetson Nano :
 * 同 7.2 一樣的問題，解法與 7.2 一樣，可自行往 7.2 小節去看。
-
+* 使用 socket 進行自組織跳點網路影像傳送:
+#### client 端(Raspberry Pi) :
+```shell
+$ python3 UDP_push.py
+```
+#### server 端(Jetson Nano) :
+```shell
+$ python UDP_pull.py
+```
+> 即完成自組織跳點網路的影像傳送_Nano版
 
 
 
