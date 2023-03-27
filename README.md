@@ -207,6 +207,8 @@ $ cd ..
 ```shell
 $ python3 trt_yolo.py --usb 0 -c 80 -m yolov4-tiny-416
 ```
+### 備註 :
+> TensorRT 代碼參考 [https://github.com/d246810g2000/trt_yolov4-tiny](https://github.com/d246810g2000/trt_yolov4-tiny)
 
 ***
 ## Step7. RTMP install
