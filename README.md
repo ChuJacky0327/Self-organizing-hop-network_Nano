@@ -171,7 +171,42 @@ $ ./darknet detector test cfg/coco.data cfg/yolov4-tiny.cfg yolov4-tiny.weights 
 $ ./darknet detector demo cfg/coco.data cfg/yolov4-tiny.cfg yolov4-tiny.weights test.mp4 -out_filename test_yolo.mp4
 ```
 ***
-## Step6. RTMP install
+
+## Step6. TensorRT 進行 yolo 辨識推論加速
+* 使用 TensorRT 進行推論加速，讓 yolo 的辨識 FPS 更快。  
+* 所執行的程式，當辨識到人時且一段時間後，會將辨識影片儲存下來。  
+```shell
+$ cd Self-organizing-hop-network_Nano
+$ bash install_protobuf-3.8.0.sh
+$ pip3 install onnx==1.4.1
+$ ./install_pycuda.sh
+$ cd plugins/
+$ make -j4
+```
+### 備註 :  
+> 1. 若編譯失敗需要重新編譯的話，下 ``` $ make clean ```，在 ``` $ make -j4 ```。  
+> 2. 上面執行的過程，需要 1~2 個小時的時間。
+&emsp;  
+* 請自先訓練完 darknet 的 weights，以得到 **.weights** 和 **.cfg** 檔
+* 將 **.weights** 和 **.cfg** 檔放入```/Self-organizing-hop-network_Nano/yolo```裡，並修改檔名(檔名最後要是數字，為輸入的大小)
+```shell
+$ cd ..
+$ cd yolo/
+$ python3 yolo_to_onnx.py -c 80 -m yolov4-tiny-416
+$ python3 onnx_to_tensorrt.py -c 80 -m yolov4-tiny-416
+$ cd ..
+```
+> * 透過 yolo_to_onnx.py 轉成 onnx 檔  
+> * 透過 onnx_to_tensorrt.py 轉成 trt 檔  
+> * (80 為 classes 的數量)
+&emsp;  
+### 接上攝影機後，透過 TensorRT 執行辨識，並將辨識到人後將辨識影片存下來 :
+```shell
+$ python3 trt_yolo.py --usb 0 -c 80 -m yolov4-tiny-416
+```
+
+***
+## Step7. RTMP install
 * 因為本專案是進行影像畫面的共享傳輸，因此需要安裝 RTMP 串流協定。
 * 需安裝 nginx-1.16.0 和 ffmpeg。
 ```shell
@@ -210,7 +245,7 @@ $ pip3 install -U opencv-python
 > 2. 在網頁輸入```localhost```，即可得知 nginx 有無啟動。
 > 3. 因為我的 Nano 的映像檔很舊，所以有保留 python2.7 的版本，若```  pip3 install -U opencv-python ```安裝後有 core dump 問題為 numpy 版本為1.19.5的關係。解法為降 numpy 的版本，先```  pip3 uninstall numpy ```，在 ```  pip3 install  ```
 ***
-## Step7. Test and Demo
+## Step8. Test and Demo
 * 本章節是進行最後的測試與 Demo。  
 * 由於本專案會配合 Raspberry Pi 進行開發，因此會分成三個小節執行說明。  
 * 我在做 Jetson Nano 的跳點專案開發時，遇到了一些問題，詳細會在各小節內說明，並附上目前的解決方法。  
@@ -218,7 +253,7 @@ $ pip3 install -U opencv-python
 >  我的 Jetson Nano python 版本為 2.7，Raspberry Pi python 版本為 3.6。
 
 &emsp;
-### 7.1 Jetson Nano 利用自組織跳點網路傳送影像給 Raspberry Pi :  
+### 8.1 Jetson Nano 利用自組織跳點網路傳送影像給 Raspberry Pi :  
 * 影像在 Jetson Nano 身上，所以 Jetson Nano 為 client 端，Raspberry Pi 為 server 端。
 * Raspberry Pi 開啟 AP，Jetson Nano 的 STA 連上 Raspberry Pi 的 AP，形成自組織的跳點網路。  
 #### client 端(Jetson Nano) :
@@ -235,7 +270,7 @@ $ python3 Nano_pull.py
 > 3.要自行更改連到的 ip address，每個人設定的會不一樣，(我的為192.168.53.6)。  
 
 &emsp;
-### 7.2  Raspberry Pi 利用自組織跳點網路傳送影像給 Jetson Nano :
+### 8.2  Raspberry Pi 利用自組織跳點網路傳送影像給 Jetson Nano :
 * 影像在 Raspberry Pi 身上，所以 Raspberry Pi 為 client 端，Jetson Nano 為 server 端。
 * Jetson Nano 開啟 AP，Raspberry Pi 的 STA 連上 Jetson Nano 的 AP，形成自組織的跳點網路。  
 ##### 備註 :
@@ -299,7 +334,7 @@ $ python UDP_pull.py
 > * 由於我的 Jetson Nano python 版本為 2.7，Raspberry Pi python 版本為 3.6，因此在用到 pickle 時要補上 protocol = 2，不然 python 3.X 的資料無法傳給 python2.X。   
 
 &emsp;
-### 7.3 Jetson Nano 利用自組織跳點網路傳送影像給 Jetson Nano :
+### 8.3 Jetson Nano 利用自組織跳點網路傳送影像給 Jetson Nano :
 * 同 7.2 一樣的問題，解法與 7.2 一樣，可自行往 7.2 小節去看。
 * 使用 socket 進行自組織跳點網路影像傳送:
 #### client 端(Raspberry Pi) :
