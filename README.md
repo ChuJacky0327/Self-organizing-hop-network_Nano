@@ -246,7 +246,7 @@ $ pip3 install -U opencv-python
 ### 備註 :  
 > 1. Jetson Nano 開機時，要下```sudo /usr/local/nginx/sbin/nginx```，啟動 nginx 服務。
 > 2. 在網頁輸入```localhost```，即可得知 nginx 有無啟動。
-> 3. 因為我的 Nano 的映像檔很舊，所以有保留 python2.7 的版本，若```  pip3 install -U opencv-python ```安裝後有 core dump 問題為 numpy 版本為1.19.5的關係。解法為降 numpy 的版本，先```  pip3 uninstall numpy ```，在 ```  pip3 install  ```
+> 3. 因為我的 Nano 的映像檔很舊，所以有保留 python2.7 的版本，若```  pip3 install -U opencv-python ```安裝後有 core dump 問題為 numpy 版本為1.19.5的關係。解法為降 numpy 的版本，先```  pip3 uninstall numpy ```，在 ```  pip3 install numpy==1.19.4  ```
 ***
 ## Step8. Test and Demo
 * 本章節是進行最後的測試與 Demo。  
